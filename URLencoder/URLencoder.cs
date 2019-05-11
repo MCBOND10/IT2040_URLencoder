@@ -11,7 +11,6 @@ namespace URLEncoder
     class URLencoder
     {
 
-
         static Dictionary<string, string> characterMap = new Dictionary<string, string>
         {
             {" ", "%20"}, {"<", "%3C"}, {">", "%3E"}, {"#", "%23"}, {"\"", "%22"},
