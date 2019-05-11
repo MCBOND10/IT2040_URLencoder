@@ -3,11 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Collections.Immutable;
 
 namespace URLEncoder
 {
     class URLencoder
     {
+
+
+        static Dictionary<string, string> characterMap = new Dictionary<string, string>
+        {
+            {" ", "%20"}, {"<", "%3C"}, {">", "%3E"}, {"#", "%23"}, {"\"", "%22"},
+
+            {";", "%3B"}, {"/", "%2F"}, {"?", "%3F"}, {":", "%3A"}, {"@", "%40"},
+
+            {"&", "%26"}, {"=", "%3D"}, {"+", "%2B"}, {"$", "%24"}, {",", "%2C"},
+
+            {"{", "%7B"}, {"}", "%7D"}, {"|", "%7C"}, {"\\", "%5C"}, {"^", "%5E"},
+
+            {"[", "%5B"}, {"]", "%5D"}, {"`", "%60"}
+        };
+
         static void Main(string[] args)
         {
             Console.WriteLine("URL Encoder");
@@ -35,7 +52,6 @@ namespace URLEncoder
             URL = String.Format("https://companyserver.com/content/{0}/files/{1}/{1}Report.pdf", projectName, activityName);
 
             return URL;
-            // create the URL string and return it
         }
 
         static string GetUserInput()
@@ -64,84 +80,18 @@ namespace URLEncoder
             }
 
             return true;
-            // check if the string is valid and does not
-            // contain control characters
-            // if valid, return true
-            // if not valid, return false
         }
 
         static string Encode(string value)
         {
+            string encodedValue = "";
+
             foreach (char ch in value.ToCharArray())
             {
-                var bit = Convert.ToByte(ch).ToString();
-                string[] vals = value.Split(ch);
-                switch (bit)
-                {
-                    case "0x20":
-                        value = vals[0] + "%20" + vals[1];
-                        continue;
-                /*    case 0x3B:
-                        value.Replace(bit.ToString(), "%3B");
-                        continue;
-                    case 0x3A:
-                        value.Replace(bit.ToString(), "%3A");
-                        continue;
-                    case 0x2F:
-                        value.Replace(bit.ToString(), "%2F");
-                        continue;
-                    case 0x3F:
-                        value.Replace(bit.ToString(), "%3F");
-                        continue;
-                    case 0x40:
-                        value.Replace(bit.ToString(), "%40");
-                        continue;
-                    case 0x26:
-                        value.Replace(bit.ToString(), "%26");
-                        continue;
-                    case 0x3D:
-                        value.Replace(bit.ToString(), "%3D");
-                        continue;
-                    case 0x2B:
-                        value.Replace(bit.ToString(), "%2B");
-                        continue;
-                    case 0x24:
-                        value.Replace(bit.ToString(), "%24");
-                        continue;
-                    case 0x7B:
-                        value.Replace(bit.ToString(), "%7B");
-                        continue;
-                    case 0x7C:
-                        value.Replace(bit.ToString(), "%2C");
-                        continue;
-                    case 0x7D:
-                        value.Replace(bit.ToString(), "%7D");
-                        continue;
-                    case 0x5B:
-                        value.Replace(bit.ToString(), "%5B");
-                        continue;
-                    case 0x5C:
-                        value.Replace(bit.ToString(), "%5C");
-                        continue;
-                    case 0x5D:
-                        value.Replace(bit.ToString(), "%5D");
-                        continue;
-                    case 0x5E:
-                        value.Replace(bit.ToString(), "%5E");
-                        continue;
-                    case 0x60:
-                        value.Replace(bit.ToString(), "%60");
-                        continue;
-                    case 0x2C:
-                        value.Replace(bit.ToString(), "%2C");
-                        continue; */
-                    default:
-                        continue;
-                }
+                string chString = ch.ToString();
+                encodedValue += characterMap.GetValueOrDefault(chString, chString);
             }
-            return value;
-            // return an encoded version of the 
-            // string provided in value
+            return encodedValue;
         }
     }    
 }
